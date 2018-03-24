@@ -1,0 +1,219 @@
+import scala.collection.mutable.ArrayBuffer
+
+
+//Clase y constructor (Encapsulamiento)
+class Alumno(private var _numControl : String, private var _nombre : String, private var _primerAp : String, private var _segundoAp : String,
+             private var _edad : Int, private var _semestre : Int, private var _carrera : String, private var _calificacionesSemestralesPorMateria : List[List[Int]]){
+  
+   //Getters y Setters
+  def numControl = _numControl   //metodo get  
+  
+  def numControl_= (numControl : String) : Unit = {   //metodo set
+    _numControl = numControl
+  }
+  
+  def nombre = _nombre   //metodo get  
+  
+  def nombre_= (nombre : String) : Unit = {   //metodo set
+    _nombre = nombre
+  }
+  
+  def primerAp = _primerAp  //metodo get  
+  
+  def primerAp_= (primerAp : String) : Unit = {   //metodo set
+    _primerAp = primerAp
+  }
+  
+  def segundoAp = _segundoAp   //metodo get  
+  
+  def segundoAp_= (segundoAp : String) : Unit = {   //metodo set
+    _segundoAp = segundoAp
+  }
+  
+  def edad = _edad   //metodo get  
+  
+  def edad_= (edad : Int) : Unit = {   //metodo set
+    _edad = edad
+  }
+  
+  def semestre = _semestre  //metodo get  
+  
+  def semestre_= (semestre : Int) : Unit = {   //metodo set
+    _semestre = semestre
+  }
+  
+  def carrera = _carrera   //metodo get  
+  
+  def carrera_= (carrera : String) : Unit = {   //metodo set
+    _carrera = carrera
+  }
+  
+  def calificacionesSemestralesPorMateria = _calificacionesSemestralesPorMateria   //metodo get  
+  
+  def calificacionesSemestralesPorMateria_= (calificaciones : List[List[Int]]) : Unit = {   //metodo set
+    _calificacionesSemestralesPorMateria = calificacionesSemestralesPorMateria
+  }
+  
+  //métodos
+  
+  def promedioGeneral() : Int = {
+    var suma = 0
+    var prom = 0
+    
+    for (i <- 0 to _calificacionesSemestralesPorMateria.length-1){
+      for(j <- 0 to _calificacionesSemestralesPorMateria(i).length-1){
+          suma = suma + _calificacionesSemestralesPorMateria(i)(j)
+      }
+    }
+    prom = suma / (6*7)
+
+    prom
+  }
+  
+  def promedioGrupal(prom1: Int, prom2: Int, prom3 : Int, prom4 : Int, prom5 : Int) = {
+    
+    var promedio = (prom1 + prom2 + prom3 + prom4 + prom5)/5
+    
+    println("El promedio Grupal es: " + promedio)
+  }
+  
+  def obtenerRFC(fechaNacimiento : String): Unit = {
+    
+    var primerAp1 = _primerAp.charAt(0)
+    var primerAp2 = _primerAp.charAt(1)
+    var segundoAp = _segundoAp.charAt(0)
+    var nombre = _nombre.charAt(0)
+    var año1 = fechaNacimiento.charAt(8)
+    var año2 = fechaNacimiento.charAt(9)
+    var mes1 = fechaNacimiento.charAt(3)
+    var mes2 = fechaNacimiento.charAt(4)
+    var dia1 = fechaNacimiento.charAt(0)
+    var dia2 = fechaNacimiento.charAt(1)
+    
+    println(primerAp1.toUpper.toString() + primerAp2.toUpper.toString() + segundoAp.toUpper.toString() + nombre.toUpper.toString() +
+        año1.toString() + año2.toString() + mes1.toString() + mes2.toString() + dia1.toString() + dia2.toString())
+    
+  }
+  
+  def calificacionesAprobatorias(): Unit = {
+    var cont = 1
+    
+    for (i <- 0 to _calificacionesSemestralesPorMateria.length-1){
+      for(j <- 0 to _calificacionesSemestralesPorMateria(i).length-1){
+          if(_calificacionesSemestralesPorMateria(i)(j) >=  70)
+            println("Aprobatoria: " + _calificacionesSemestralesPorMateria(i)(j) + " Semestre:" + cont)
+      }
+         cont +=1
+    }
+  }
+
+
+  def semestresReprobados(): Int = {
+    var cont = 1
+    var mayor = 0
+    var contSem = 0
+    
+    for (i <- 0 to _calificacionesSemestralesPorMateria.length-1){
+      for(j <- 0 to _calificacionesSemestralesPorMateria(i).length-1){
+          if(_calificacionesSemestralesPorMateria(j)(i) <  70)
+            contSem +=1
+      }
+         cont +=1
+    }   
+    contSem
+  }
+  
+  def materiasReprobadas(): Int = {
+    var cont = 1
+    var mayor = 0
+    var contMat = 0
+    
+    for (i <- 0 to _calificacionesSemestralesPorMateria.length-1){
+      for(j <- 0 to _calificacionesSemestralesPorMateria(i).length-1){
+          if(_calificacionesSemestralesPorMateria(j)(i) <  70)
+            contMat +=1
+      }
+         cont +=1
+    }   
+    contMat
+  }
+}  
+
+object EjercicioAlumno {
+  
+   def main(args: Array[String]): Unit = {
+     
+      var numControl = "17070180"
+      var nombre = "Claudia"
+      var primerAp = "Saldivar"
+      var segundoAp = "Isais"
+      var edad = 22 
+      var semestre = 8
+      var carrera = "ISC"
+      var fechaNacimiento = "09/10/1995"
+      
+      //Las columnas son las materias
+      //Las filas son los semestres, 
+      val calificaciones1 = List(
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50)
+                               )
+      val calificaciones2 = List(
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50)
+                               )
+       val calificaciones3 = List(
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100)
+                               )
+       val calificaciones4 = List(
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50),
+                                 List(80, 90, 100, 98, 70, 50)
+                               )
+       val calificaciones5 = List(
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100),
+                                 List(80, 90, 100, 98, 100, 100)
+                               )
+                               
+     val a1 = new Alumno(numControl, nombre, primerAp, segundoAp, edad, semestre, carrera, calificaciones1) 
+      a1.obtenerRFC("09/10/1995")
+      println("**************************************************************")
+      println("El promedio General es:" + a1.promedioGeneral())
+      println("**************************************************************")
+      a1.calificacionesAprobatorias()
+      println("**************************************************************")
+      //Promedio Grupal
+      val a2 = new Alumno(numControl, nombre, primerAp, segundoAp, edad, semestre, carrera, calificaciones2)
+      val a3 = new Alumno(numControl, nombre, primerAp, segundoAp, edad, semestre, carrera, calificaciones3)
+      val a4 = new Alumno(numControl, nombre, primerAp, segundoAp, edad, semestre, carrera, calificaciones4)
+      val a5 = new Alumno(numControl, nombre, primerAp, segundoAp, edad, semestre, carrera, calificaciones5)
+      a1.promedioGrupal(a1.promedioGeneral(),a2.promedioGeneral(), a3.promedioGeneral(), a4.promedioGeneral(), a5.promedioGeneral() )
+      
+   }
+    
+}
